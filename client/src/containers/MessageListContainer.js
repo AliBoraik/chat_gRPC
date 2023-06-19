@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import MessageList from '../components/chat/MessageList';
+import './MessageListContainer.css'
+
 
 const MessageListContainer = () => {
 
@@ -10,7 +12,7 @@ const MessageListContainer = () => {
     const { ChatClient } = require('../protos/chat_grpc_web_pb');
     const { Message } = require('../protos/chat_pb.js');
 
-    const client= new ChatClient('https://localhost:7144', null, null);
+    const client= new ChatClient('http://localhost:5050', null, null);
     
     useEffect(() => {
         let streamRequest = new Message();
@@ -51,26 +53,38 @@ const MessageListContainer = () => {
             }
         });
     }
-
     return (
-        <div>
-            <MessageList chat={chat} />
-            
-            <span>Nickname : </span>
-            <input
-                name="name"
-                onChange={onNameChange}
-                value={name}
-            />
-            <br />
-            <span>Message : </span>
-            <input
-                name="msg"
-                onChange={onMsgChange}
-                value={msg}
-            />
-            <button onClick={onMessageSubmit}>Send</button>
+        <div className="chat-container">
+            <div className="input-container">
+                <span className="input-label">Nickname:</span>
+                <input
+                    className="input-field"
+                    name="name"
+                    onChange={onNameChange}
+                    value={name}
+                />
+            </div>
 
+            <div className="input-container">
+                <span className="input-label">Message:</span>
+                <input
+                    className="input-field"
+                    name="msg"
+                    onChange={onMsgChange}
+                    value={msg}
+                />
+                <button className="send-button" onClick={onMessageSubmit}>
+                    Send
+                </button>
+            </div>
+            <div className="message-list">
+                {chat.map(({ name, msg }, idx) => (
+                    <div key={idx} className="message-container">
+                        <span className="nickname-label">{name}:</span>
+                        <span>{msg}</span>
+                    </div>
+                ))}
+            </div>
         </div>
     );
 };

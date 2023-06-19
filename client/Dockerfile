@@ -1,5 +1,11 @@
-FROM envoyproxy/envoy:v1.12.2
+FROM node:8.16 as build-deps
+WORKDIR /usr/src/app
+COPY package.json yarn.lock ./
+RUN yarn
+COPY . ./
+RUN yarn build
 
-COPY ./envoy.yaml /etc/envoy/envoy.yaml
-
-CMD /usr/local/bin/envoy -c /etc/envoy/envoy.yaml -l trace --log-path /tmp/envoy_info.log
+FROM nginx:1.12-alpine
+COPY --from=build-deps /usr/src/app/build /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
