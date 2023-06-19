@@ -18,10 +18,19 @@ This is a chat application built using gRPC, .NET Core, and React. It enables re
 
 1. Clone the repository:
 2. Build and run the Docker containers:
-```docker
+```shell
 docker-compose up
 ```
-3. Open your web browser and visit http://localhost:3000 to access the chat application.
+3. Navigate to the project directory:
+```shell
+cd client
+```
+4. Install the dependencies using yarn:
+```shell
+yarn install
+```
+5. Open your web browser and visit http://localhost:3000 to access the chat application.
+
 
 ## Features
 Contributions are welcome! If you encounter any issues or have suggestions for improvements, please create a new issue or submit a pull request.
